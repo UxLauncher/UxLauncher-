@@ -3,7 +3,7 @@ $ErrorActionPreference = "Stop"
 
 $INSTALL_DIR = "$env:LOCALAPPDATA\UX-CLIENT"
 $JAVA_URL = "https://github.com/adoptium/temurin21-binaries/releases/download/jdk-21.0.5%2B11/OpenJDK21U-jre_x64_windows_hotspot_21.0.5_11.zip"
-$LAUNCHER_URL = "https://github.com/UxuiderGrosse/ux-client/releases/latest/download/UX-CLIENT.jar"
+$LAUNCHER_URL = "https://github.com/UxLauncher/UxLauncher-/releases/latest/download/UX-CLIENT.jar"
 
 Write-Host ""
 Write-Host "  ██╗   ██╗██╗  ██╗      ██████╗██╗     ██╗███████╗███╗   ██╗████████╗" -ForegroundColor Green

@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>UX-CLIENT | Industrial Engine</title>
 <style>
-  /* Self-contained - no external fonts needed */
+  
 
   :root {
     --accent: #00ff78;
@@ -145,7 +145,7 @@
   .hero-badge::before {
     content: '';
     width: 6px; height: 6px;
-    background: var(--accent);
+    background: #00ff78;
     border-radius: 50%;
     animation: pulse 1.5s infinite;
   }
@@ -165,8 +165,9 @@
     animation: fadeDown 0.6s ease 0.1s both;
   }
 
-  .hero-title .ux { color: #00ff78 !important; }
+  .hero-title .ux { color: #00ff78 !important; text-shadow: 0 0 30px rgba(0,255,120,0.5); }
   .hero-title .client { color: #e0e0e0 !important; }
+  .hero-title { font-family: 'Courier New', monospace !important; letter-spacing: -4px; }
 
   .hero-sub {
     font-family: 'Courier New', 'Consolas', monospace;
@@ -185,7 +186,7 @@
     display: inline-flex;
     align-items: center;
     gap: 14px;
-    background: var(--accent);
+    background: #00ff78;
     color: #000;
     font-family: 'Courier New', 'Lucida Console', monospace;
     font-weight: 700;
@@ -212,7 +213,7 @@
   }
 
   .dl-btn:hover::before { transform: translateX(0); }
-  .dl-btn:hover { background: #00e56b; transform: translateY(-2px); box-shadow: 0 12px 40px rgba(0,255,120,0.3); }
+  .dl-btn:hover { background: #00cc66; transform: translateY(-2px); box-shadow: 0 12px 40px rgba(0,255,120,0.3); }
   .dl-btn:active { transform: translateY(0); }
 
   .dl-btn svg { width: 20px; height: 20px; }
@@ -239,6 +240,7 @@
   .stat { text-align: center; }
 
   .stat-num {
+    color: #00ff78 !important;
     font-family: 'Courier New', 'Lucida Console', monospace;
     font-weight: 700;
     font-size: 28px;
@@ -302,7 +304,7 @@
     top: 0; left: 0;
     width: 3px;
     height: 0;
-    background: var(--accent);
+    background: #00ff78;
     transition: height 0.3s;
   }
 
@@ -458,7 +460,7 @@
   .t-dot { width: 10px; height: 10px; border-radius: 50%; }
   .t-dot.red   { background: #ff5555; }
   .t-dot.yellow{ background: #ffb800; }
-  .t-dot.green { background: var(--accent); }
+  .t-dot.green { background: #00ff78; }
 
   .terminal-title {
     font-family: 'Courier New', 'Consolas', monospace;
@@ -554,8 +556,8 @@
     z-index: 0;
     opacity: 0.12;
   }
-  .orb1 { width: 600px; height: 600px; background: var(--accent); top: -200px; left: -200px; }
-  .orb2 { width: 400px; height: 400px; background: var(--accent); bottom: -100px; right: -100px; }
+  .orb1 { width: 600px; height: 600px; background: #00ff78; top: -200px; left: -200px; }
+  .orb2 { width: 400px; height: 400px; background: #00ff78; bottom: -100px; right: -100px; }
 </style>
 </head>
 <body>
