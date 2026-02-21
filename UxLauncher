@@ -1,0 +1,811 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>UX-CLIENT | Industrial Engine</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Rajdhani:wght@300;400;600;700&family=Orbitron:wght@400;700;900&display=swap');
+
+  :root {
+    --bg:        #080808;
+    --bg2:       #0d0d0d;
+    --bg3:       #111;
+    --card:      #141414;
+    --border:    #1e1e1e;
+    --accent:    #00ff78;
+    --accent2:   #00c85a;
+    --accent3:   #003d20;
+    --text:      #e0e0e0;
+    --dim:       #555;
+    --dim2:      #333;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Rajdhani', sans-serif;
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  /* ── SCANLINE OVERLAY ── */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background: repeating-linear-gradient(
+      0deg,
+      transparent,
+      transparent 2px,
+      rgba(0,255,120,0.012) 2px,
+      rgba(0,255,120,0.012) 4px
+    );
+    pointer-events: none;
+    z-index: 100;
+  }
+
+  /* ── GRID BACKGROUND ── */
+  body::after {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(0,255,120,0.03) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(0,255,120,0.03) 1px, transparent 1px);
+    background-size: 40px 40px;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  /* ── NAV ── */
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    height: 52px;
+    background: rgba(8,8,8,0.95);
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 40px;
+    z-index: 50;
+    backdrop-filter: blur(10px);
+  }
+
+  .nav-logo {
+    font-family: 'Orbitron', monospace;
+    font-weight: 900;
+    font-size: 16px;
+    color: var(--accent);
+    letter-spacing: 3px;
+    text-decoration: none;
+  }
+
+  .nav-logo span {
+    color: var(--dim);
+    font-weight: 400;
+    font-size: 11px;
+    letter-spacing: 2px;
+    margin-left: 10px;
+    font-family: 'Share Tech Mono', monospace;
+  }
+
+  .nav-links {
+    display: flex;
+    gap: 32px;
+    list-style: none;
+  }
+
+  .nav-links a {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 11px;
+    color: var(--dim);
+    text-decoration: none;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    transition: color 0.2s;
+  }
+
+  .nav-links a:hover { color: var(--accent); }
+
+  /* ── HERO ── */
+  .hero {
+    position: relative;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 100px 40px 60px;
+    z-index: 1;
+  }
+
+  .hero-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: var(--accent3);
+    border: 1px solid rgba(0,255,120,0.3);
+    color: var(--accent);
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 3px;
+    padding: 6px 16px;
+    margin-bottom: 32px;
+    animation: fadeDown 0.6s ease both;
+  }
+
+  .hero-badge::before {
+    content: '';
+    width: 6px; height: 6px;
+    background: var(--accent);
+    border-radius: 50%;
+    animation: pulse 1.5s infinite;
+  }
+
+  @keyframes pulse {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.4; transform: scale(0.7); }
+  }
+
+  .hero-title {
+    font-family: 'Orbitron', monospace;
+    font-weight: 900;
+    font-size: clamp(52px, 9vw, 110px);
+    line-height: 0.9;
+    letter-spacing: -2px;
+    margin-bottom: 12px;
+    animation: fadeDown 0.6s ease 0.1s both;
+  }
+
+  .hero-title .ux { color: var(--accent); }
+  .hero-title .client { color: var(--text); }
+
+  .hero-sub {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 13px;
+    color: var(--dim);
+    letter-spacing: 6px;
+    text-transform: uppercase;
+    margin-bottom: 48px;
+    animation: fadeDown 0.6s ease 0.2s both;
+  }
+
+  .hero-sub span { color: var(--accent2); }
+
+  /* ── DOWNLOAD BUTTON ── */
+  .dl-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 14px;
+    background: var(--accent);
+    color: #000;
+    font-family: 'Orbitron', monospace;
+    font-weight: 700;
+    font-size: 14px;
+    letter-spacing: 3px;
+    padding: 18px 48px;
+    text-decoration: none;
+    cursor: pointer;
+    border: none;
+    position: relative;
+    overflow: hidden;
+    transition: all 0.2s;
+    animation: fadeDown 0.6s ease 0.3s both;
+    clip-path: polygon(12px 0%, 100% 0%, calc(100% - 12px) 100%, 0% 100%);
+  }
+
+  .dl-btn::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: rgba(255,255,255,0.15);
+    transform: translateX(-100%);
+    transition: transform 0.3s;
+  }
+
+  .dl-btn:hover::before { transform: translateX(0); }
+  .dl-btn:hover { background: #00e56b; transform: translateY(-2px); box-shadow: 0 12px 40px rgba(0,255,120,0.3); }
+  .dl-btn:active { transform: translateY(0); }
+
+  .dl-btn svg { width: 20px; height: 20px; }
+
+  .dl-info {
+    margin-top: 16px;
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 11px;
+    color: var(--dim);
+    letter-spacing: 1px;
+    animation: fadeDown 0.6s ease 0.4s both;
+  }
+
+  /* ── STATS BAR ── */
+  .stats {
+    display: flex;
+    gap: 60px;
+    margin-top: 80px;
+    padding-top: 40px;
+    border-top: 1px solid var(--border);
+    animation: fadeDown 0.6s ease 0.5s both;
+  }
+
+  .stat { text-align: center; }
+
+  .stat-num {
+    font-family: 'Orbitron', monospace;
+    font-weight: 700;
+    font-size: 28px;
+    color: var(--accent);
+    line-height: 1;
+  }
+
+  .stat-label {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 10px;
+    color: var(--dim);
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    margin-top: 6px;
+  }
+
+  /* ── FEATURES ── */
+  .section {
+    position: relative;
+    z-index: 1;
+    padding: 80px 40px;
+    max-width: 1100px;
+    margin: 0 auto;
+  }
+
+  .section-label {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 10px;
+    color: var(--accent);
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    margin-bottom: 12px;
+  }
+
+  .section-title {
+    font-family: 'Orbitron', monospace;
+    font-weight: 700;
+    font-size: 32px;
+    color: var(--text);
+    margin-bottom: 48px;
+  }
+
+  .features-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2px;
+  }
+
+  .feature {
+    background: var(--card);
+    border: 1px solid var(--border);
+    padding: 32px 28px;
+    position: relative;
+    overflow: hidden;
+    transition: border-color 0.2s, background 0.2s;
+  }
+
+  .feature::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0;
+    width: 3px;
+    height: 0;
+    background: var(--accent);
+    transition: height 0.3s;
+  }
+
+  .feature:hover { background: #161616; border-color: var(--dim2); }
+  .feature:hover::before { height: 100%; }
+
+  .feature-icon {
+    font-size: 28px;
+    margin-bottom: 16px;
+    display: block;
+  }
+
+  .feature-title {
+    font-family: 'Orbitron', monospace;
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--text);
+    letter-spacing: 1px;
+    margin-bottom: 10px;
+  }
+
+  .feature-desc {
+    font-size: 14px;
+    color: var(--dim);
+    line-height: 1.6;
+    font-weight: 300;
+  }
+
+  /* ── INSTALL STEPS ── */
+  .steps {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    max-width: 700px;
+  }
+
+  .step {
+    display: flex;
+    align-items: flex-start;
+    gap: 24px;
+    background: var(--card);
+    border: 1px solid var(--border);
+    padding: 24px 28px;
+    transition: border-color 0.2s;
+  }
+
+  .step:hover { border-color: var(--accent3); }
+
+  .step-num {
+    font-family: 'Orbitron', monospace;
+    font-weight: 900;
+    font-size: 32px;
+    color: var(--accent3);
+    line-height: 1;
+    min-width: 40px;
+  }
+
+  .step:hover .step-num { color: var(--accent); }
+
+  .step-content {}
+
+  .step-title {
+    font-family: 'Orbitron', monospace;
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--text);
+    margin-bottom: 6px;
+    letter-spacing: 1px;
+  }
+
+  .step-desc {
+    font-size: 14px;
+    color: var(--dim);
+    font-weight: 300;
+    line-height: 1.5;
+  }
+
+  .step-desc code {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 12px;
+    background: var(--bg3);
+    color: var(--accent);
+    padding: 2px 8px;
+    border: 1px solid var(--border);
+  }
+
+  /* ── VERSIONS ── */
+  .versions-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(90px, 1fr));
+    gap: 4px;
+    margin-top: 8px;
+  }
+
+  .version-chip {
+    background: var(--bg3);
+    border: 1px solid var(--border);
+    padding: 8px 10px;
+    text-align: center;
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 11px;
+    color: var(--dim);
+    transition: all 0.15s;
+    cursor: default;
+  }
+
+  .version-chip:hover { background: var(--accent3); color: var(--accent); border-color: rgba(0,255,120,0.3); }
+  .version-chip.latest { background: var(--accent3); color: var(--accent); border-color: rgba(0,255,120,0.4); }
+
+  /* ── FOOTER ── */
+  footer {
+    position: relative;
+    z-index: 1;
+    border-top: 1px solid var(--border);
+    padding: 32px 40px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .footer-logo {
+    font-family: 'Orbitron', monospace;
+    font-size: 14px;
+    color: var(--accent);
+    letter-spacing: 2px;
+  }
+
+  .footer-text {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 11px;
+    color: var(--dim);
+    letter-spacing: 1px;
+  }
+
+  /* ── TERMINAL WINDOW ── */
+  .terminal {
+    background: #060606;
+    border: 1px solid var(--border);
+    border-top: 2px solid var(--accent);
+    max-width: 680px;
+    margin: 48px auto 0;
+  }
+
+  .terminal-bar {
+    background: #0d0d0d;
+    padding: 10px 16px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .t-dot { width: 10px; height: 10px; border-radius: 50%; }
+  .t-dot.red   { background: #ff5555; }
+  .t-dot.yellow{ background: #ffb800; }
+  .t-dot.green { background: var(--accent); }
+
+  .terminal-title {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 11px;
+    color: var(--dim);
+    margin-left: 8px;
+    letter-spacing: 1px;
+  }
+
+  .terminal-body {
+    padding: 20px 24px;
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 12px;
+    line-height: 1.8;
+  }
+
+  .t-green { color: var(--accent); }
+  .t-dim   { color: var(--dim); }
+  .t-white { color: var(--text); }
+  .t-blue  { color: #64b5ff; }
+
+  /* ── DOWNLOAD SECTION ── */
+  .dl-section {
+    position: relative;
+    z-index: 1;
+    background: linear-gradient(180deg, transparent, rgba(0,255,120,0.03), transparent);
+    border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+    padding: 80px 40px;
+    text-align: center;
+  }
+
+  .dl-cards {
+    display: flex;
+    gap: 2px;
+    justify-content: center;
+    margin-top: 40px;
+    flex-wrap: wrap;
+  }
+
+  .dl-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    padding: 32px 40px;
+    min-width: 220px;
+    text-align: center;
+    transition: all 0.2s;
+    cursor: pointer;
+    text-decoration: none;
+    display: block;
+  }
+
+  .dl-card:hover {
+    background: #161616;
+    border-color: var(--accent3);
+    transform: translateY(-4px);
+  }
+
+  .dl-card.primary { border-color: rgba(0,255,120,0.3); }
+  .dl-card.primary:hover { border-color: var(--accent); }
+
+  .dl-card-icon { font-size: 32px; margin-bottom: 12px; display: block; }
+
+  .dl-card-title {
+    font-family: 'Orbitron', monospace;
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--text);
+    letter-spacing: 2px;
+    margin-bottom: 8px;
+  }
+
+  .dl-card.primary .dl-card-title { color: var(--accent); }
+
+  .dl-card-sub {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 10px;
+    color: var(--dim);
+    letter-spacing: 1px;
+  }
+
+  @keyframes fadeDown {
+    from { opacity: 0; transform: translateY(-16px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  /* ── GLOW ORBS ── */
+  .orb {
+    position: fixed;
+    border-radius: 50%;
+    filter: blur(120px);
+    pointer-events: none;
+    z-index: 0;
+    opacity: 0.12;
+  }
+  .orb1 { width: 600px; height: 600px; background: var(--accent); top: -200px; left: -200px; }
+  .orb2 { width: 400px; height: 400px; background: var(--accent); bottom: -100px; right: -100px; }
+</style>
+</head>
+<body>
+
+<div class="orb orb1"></div>
+<div class="orb orb2"></div>
+
+<!-- NAV -->
+<nav>
+  <a class="nav-logo" href="#">UX-CLIENT<span>INDUSTRIAL ENGINE</span></a>
+  <ul class="nav-links">
+    <li><a href="#features">Features</a></li>
+    <li><a href="#install">Install</a></li>
+    <li><a href="#versions">Versions</a></li>
+    <li><a href="#download">Download</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-badge">v4.0 STABLE — NOW AVAILABLE</div>
+
+  <h1 class="hero-title">
+    <span class="ux">UX</span><span class="client">-CLIENT</span>
+  </h1>
+  <p class="hero-sub">Industrial Engine <span>|</span> Minecraft Launcher</p>
+
+  <a href="UX-CLIENT-Installer.cmd" class="dl-btn" id="mainDlBtn">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+      <path d="M12 2v13M6 10l6 6 6-6M2 20h20"/>
+    </svg>
+    DOWNLOAD FOR WINDOWS
+  </a>
+  <div class="dl-info">Free · No account needed · Requires Java (auto-installed)</div>
+
+  <div class="stats">
+    <div class="stat">
+      <div class="stat-num">60+</div>
+      <div class="stat-label">Versions</div>
+    </div>
+    <div class="stat">
+      <div class="stat-num">100%</div>
+      <div class="stat-label">Free</div>
+    </div>
+    <div class="stat">
+      <div class="stat-num">4.0</div>
+      <div class="stat-label">Latest</div>
+    </div>
+    <div class="stat">
+      <div class="stat-num">FPS+</div>
+      <div class="stat-label">Optimized</div>
+    </div>
+  </div>
+
+  <!-- Terminal preview -->
+  <div class="terminal" style="animation: fadeDown 0.6s ease 0.6s both; text-align:left;">
+    <div class="terminal-bar">
+      <div class="t-dot red"></div>
+      <div class="t-dot yellow"></div>
+      <div class="t-dot green"></div>
+      <span class="terminal-title">UX-CLIENT — Console</span>
+    </div>
+    <div class="terminal-body">
+      <div><span class="t-dim">[11:27:08]</span> <span class="t-green">UX-CLIENT v4.0 started</span></div>
+      <div><span class="t-dim">[11:27:08]</span> <span class="t-white">MC path: C:\Users\user\AppData\Roaming\.minecraft</span></div>
+      <div><span class="t-dim">[11:27:08]</span> <span class="t-blue">Resource pack installed: UX-CLIENT-ResourcePack.zip</span></div>
+      <div><span class="t-dim">[11:27:09]</span> <span class="t-white">Mods: 15 loaded</span></div>
+      <div><span class="t-dim">[11:27:09]</span> <span class="t-white">Please sign in with your Microsoft account.</span></div>
+      <div><span class="t-dim">[11:27:21]</span> <span class="t-green">=== LOGIN SUCCESSFUL ===</span></div>
+      <div><span class="t-dim">[11:27:21]</span> <span class="t-green">Username: Progamer1234561 | UUID: b9d4f2e0...</span></div>
+      <div><span class="t-dim">[11:27:25]</span> <span class="t-white">Version: 1.21.11 | RAM: 4G | Launching...</span></div>
+      <div><span class="t-dim">[11:27:26]</span> <span class="t-green">■ Minecraft started successfully</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- FEATURES -->
+<section class="section" id="features">
+  <div class="section-label">// WHAT YOU GET</div>
+  <div class="section-title">Features</div>
+  <div class="features-grid">
+    <div class="feature">
+      <span class="feature-icon">🔐</span>
+      <div class="feature-title">MICROSOFT LOGIN</div>
+      <div class="feature-desc">Full OAuth2 authentication with your real Microsoft account. No cracks, no alt accounts.</div>
+    </div>
+    <div class="feature">
+      <span class="feature-icon">⚡</span>
+      <div class="feature-title">MAX FPS</div>
+      <div class="feature-desc">Carefully tuned JVM flags: G1GC, JIT optimizations, string deduplication. Squeeze every frame.</div>
+    </div>
+    <div class="feature">
+      <span class="feature-icon">🎨</span>
+      <div class="feature-title">UX-CLIENT THEME</div>
+      <div class="feature-desc">Black & neon green resource pack auto-installs. Every menu looks like the launcher.</div>
+    </div>
+    <div class="feature">
+      <span class="feature-icon">📦</span>
+      <div class="feature-title">MOD MANAGER</div>
+      <div class="feature-desc">View, delete and manage your .minecraft/mods/ folder directly from the launcher.</div>
+    </div>
+    <div class="feature">
+      <span class="feature-icon">🔍</span>
+      <div class="feature-title">MODRINTH BROWSER</div>
+      <div class="feature-desc">Search and discover mods from Modrinth without leaving the launcher. One-click install.</div>
+    </div>
+    <div class="feature">
+      <span class="feature-icon">🌐</span>
+      <div class="feature-title">ALL VERSIONS</div>
+      <div class="feature-desc">From 1.8.9 to 1.21.11. Supports Fabric, Forge and vanilla. Detects installed versions automatically.</div>
+    </div>
+  </div>
+</section>
+
+<!-- INSTALL -->
+<section class="section" id="install">
+  <div class="section-label">// GETTING STARTED</div>
+  <div class="section-title">Installation</div>
+  <div class="steps">
+    <div class="step">
+      <div class="step-num">01</div>
+      <div class="step-content">
+        <div class="step-title">DOWNLOAD INSTALLER</div>
+        <div class="step-desc">Click the Download button above. Save <code>UX-CLIENT-Installer.cmd</code> anywhere.</div>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num">02</div>
+      <div class="step-content">
+        <div class="step-title">RUN THE INSTALLER</div>
+        <div class="step-desc">Double-click the .cmd file. It automatically downloads Java 21 and the launcher, then creates a Desktop shortcut.</div>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num">03</div>
+      <div class="step-content">
+        <div class="step-title">SIGN IN</div>
+        <div class="step-desc">Click <code>Sign in</code>, log in with your Microsoft account in the browser, paste the redirect URL back.</div>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num">04</div>
+      <div class="step-content">
+        <div class="step-title">LAUNCH & PLAY</div>
+        <div class="step-desc">Select your version, adjust RAM, click <code>LAUNCH</code>. The UX-CLIENT theme installs automatically.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- VERSIONS -->
+<section class="section" id="versions">
+  <div class="section-label">// SUPPORTED</div>
+  <div class="section-title">All Versions</div>
+  <div class="versions-grid">
+    <div class="version-chip latest">1.21.11</div>
+    <div class="version-chip">1.21.10</div>
+    <div class="version-chip">1.21.8</div>
+    <div class="version-chip">1.21.5</div>
+    <div class="version-chip">1.21.4</div>
+    <div class="version-chip">1.21.1</div>
+    <div class="version-chip">1.21</div>
+    <div class="version-chip">1.20.6</div>
+    <div class="version-chip">1.20.4</div>
+    <div class="version-chip">1.20.1</div>
+    <div class="version-chip">1.20</div>
+    <div class="version-chip">1.19.4</div>
+    <div class="version-chip">1.19.2</div>
+    <div class="version-chip">1.19</div>
+    <div class="version-chip">1.18.2</div>
+    <div class="version-chip">1.18</div>
+    <div class="version-chip">1.17.1</div>
+    <div class="version-chip">1.17</div>
+    <div class="version-chip">1.16.5</div>
+    <div class="version-chip">1.16.4</div>
+    <div class="version-chip">1.16.1</div>
+    <div class="version-chip">1.16</div>
+    <div class="version-chip">1.15.2</div>
+    <div class="version-chip">1.15</div>
+    <div class="version-chip">1.14.4</div>
+    <div class="version-chip">1.14</div>
+    <div class="version-chip">1.13.2</div>
+    <div class="version-chip">1.13</div>
+    <div class="version-chip">1.12.2</div>
+    <div class="version-chip">1.12</div>
+    <div class="version-chip">1.11.2</div>
+    <div class="version-chip">1.10.2</div>
+    <div class="version-chip">1.9.4</div>
+    <div class="version-chip">1.9</div>
+    <div class="version-chip">1.8.9</div>
+    <div class="version-chip">1.8.8</div>
+    <div class="version-chip">1.8</div>
+  </div>
+</section>
+
+<!-- DOWNLOAD -->
+<section class="dl-section" id="download">
+  <div class="section-label" style="text-align:center">// GET IT NOW</div>
+  <div class="section-title" style="text-align:center">Download UX-CLIENT</div>
+
+  <div class="dl-cards">
+    <a href="UX-CLIENT-Installer.cmd" class="dl-card primary">
+      <span class="dl-card-icon">🪟</span>
+      <div class="dl-card-title">WINDOWS</div>
+      <div class="dl-card-sub">Installer .cmd · Auto-setup</div>
+    </a>
+    <a href="UX-CLIENT.jar" class="dl-card">
+      <span class="dl-card-icon">☕</span>
+      <div class="dl-card-title">JAR ONLY</div>
+      <div class="dl-card-sub">All platforms · Needs Java 21</div>
+    </a>
+    <a href="installer.ps1" class="dl-card">
+      <span class="dl-card-icon">⚙️</span>
+      <div class="dl-card-title">POWERSHELL</div>
+      <div class="dl-card-sub">Advanced · Manual install</div>
+    </a>
+  </div>
+
+  <p style="margin-top:32px; font-family:'Share Tech Mono',monospace; font-size:11px; color:var(--dim); letter-spacing:1px;">
+    Requires Java 21 (auto-downloaded by installer) · Requires Minecraft Java Edition
+  </p>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-logo">UX-CLIENT</div>
+  <div class="footer-text">Industrial Engine v4.0 · Not affiliated with Mojang or Microsoft</div>
+</footer>
+
+<script>
+  // Animate version chips on scroll
+  const chips = document.querySelectorAll('.version-chip');
+  const obs = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        chips.forEach((c, i) => {
+          setTimeout(() => c.style.opacity = '1', i * 20);
+        });
+      }
+    });
+  });
+  chips.forEach(c => c.style.opacity = '0');
+  obs.observe(document.querySelector('.versions-grid'));
+
+  // Typewriter effect in terminal
+  const lines = document.querySelectorAll('.terminal-body div');
+  lines.forEach((line, i) => {
+    line.style.opacity = '0';
+    setTimeout(() => {
+      line.style.opacity = '1';
+      line.style.transition = 'opacity 0.3s';
+    }, 800 + i * 180);
+  });
+</script>
+</body>
+</html>
