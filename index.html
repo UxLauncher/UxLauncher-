@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>UX-CLIENT | Industrial Engine</title>
 <style>
-  @import url('https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Rajdhani:wght@300;400;600;700&family=Orbitron:wght@400;700;900&display=swap');
+  /* Self-contained - no external fonts needed */
 
   :root {
     --bg:        #080808;
@@ -26,7 +26,7 @@
   body {
     background: var(--bg);
     color: var(--text);
-    font-family: 'Rajdhani', sans-serif;
+    font-family: 'Segoe UI', Arial, sans-serif;
     min-height: 100vh;
     overflow-x: hidden;
   }
@@ -76,7 +76,7 @@
   }
 
   .nav-logo {
-    font-family: 'Orbitron', monospace;
+    font-family: 'Courier New', 'Lucida Console', monospace;
     font-weight: 900;
     font-size: 16px;
     color: var(--accent);
@@ -90,7 +90,7 @@
     font-size: 11px;
     letter-spacing: 2px;
     margin-left: 10px;
-    font-family: 'Share Tech Mono', monospace;
+    font-family: 'Courier New', 'Consolas', monospace;
   }
 
   .nav-links {
@@ -100,7 +100,7 @@
   }
 
   .nav-links a {
-    font-family: 'Share Tech Mono', monospace;
+    font-family: 'Courier New', 'Consolas', monospace;
     font-size: 11px;
     color: var(--dim);
     text-decoration: none;
@@ -131,7 +131,7 @@
     background: var(--accent3);
     border: 1px solid rgba(0,255,120,0.3);
     color: var(--accent);
-    font-family: 'Share Tech Mono', monospace;
+    font-family: 'Courier New', 'Consolas', monospace;
     font-size: 11px;
     letter-spacing: 3px;
     padding: 6px 16px;
@@ -153,7 +153,7 @@
   }
 
   .hero-title {
-    font-family: 'Orbitron', monospace;
+    font-family: 'Courier New', 'Lucida Console', monospace;
     font-weight: 900;
     font-size: clamp(52px, 9vw, 110px);
     line-height: 0.9;
@@ -166,7 +166,7 @@
   .hero-title .client { color: var(--text); }
 
   .hero-sub {
-    font-family: 'Share Tech Mono', monospace;
+    font-family: 'Courier New', 'Consolas', monospace;
     font-size: 13px;
     color: var(--dim);
     letter-spacing: 6px;
@@ -184,7 +184,7 @@
     gap: 14px;
     background: var(--accent);
     color: #000;
-    font-family: 'Orbitron', monospace;
+    font-family: 'Courier New', 'Lucida Console', monospace;
     font-weight: 700;
     font-size: 14px;
     letter-spacing: 3px;
@@ -216,7 +216,7 @@
 
   .dl-info {
     margin-top: 16px;
-    font-family: 'Share Tech Mono', monospace;
+    font-family: 'Courier New', 'Consolas', monospace;
     font-size: 11px;
     color: var(--dim);
     letter-spacing: 1px;
@@ -236,7 +236,7 @@
   .stat { text-align: center; }
 
   .stat-num {
-    font-family: 'Orbitron', monospace;
+    font-family: 'Courier New', 'Lucida Console', monospace;
     font-weight: 700;
     font-size: 28px;
     color: var(--accent);
@@ -244,7 +244,7 @@
   }
 
   .stat-label {
-    font-family: 'Share Tech Mono', monospace;
+    font-family: 'Courier New', 'Consolas', monospace;
     font-size: 10px;
     color: var(--dim);
     letter-spacing: 2px;
@@ -262,7 +262,7 @@
   }
 
   .section-label {
-    font-family: 'Share Tech Mono', monospace;
+    font-family: 'Courier New', 'Consolas', monospace;
     font-size: 10px;
     color: var(--accent);
     letter-spacing: 4px;
@@ -271,7 +271,7 @@
   }
 
   .section-title {
-    font-family: 'Orbitron', monospace;
+    font-family: 'Courier New', 'Lucida Console', monospace;
     font-weight: 700;
     font-size: 32px;
     color: var(--text);
@@ -313,7 +313,7 @@
   }
 
   .feature-title {
-    font-family: 'Orbitron', monospace;
+    font-family: 'Courier New', 'Lucida Console', monospace;
     font-size: 13px;
     font-weight: 700;
     color: var(--text);
@@ -349,7 +349,7 @@
   .step:hover { border-color: var(--accent3); }
 
   .step-num {
-    font-family: 'Orbitron', monospace;
+    font-family: 'Courier New', 'Lucida Console', monospace;
     font-weight: 900;
     font-size: 32px;
     color: var(--accent3);
@@ -362,7 +362,7 @@
   .step-content {}
 
   .step-title {
-    font-family: 'Orbitron', monospace;
+    font-family: 'Courier New', 'Lucida Console', monospace;
     font-size: 13px;
     font-weight: 700;
     color: var(--text);
@@ -378,7 +378,7 @@
   }
 
   .step-desc code {
-    font-family: 'Share Tech Mono', monospace;
+    font-family: 'Courier New', 'Consolas', monospace;
     font-size: 12px;
     background: var(--bg3);
     color: var(--accent);
@@ -399,7 +399,7 @@
     border: 1px solid var(--border);
     padding: 8px 10px;
     text-align: center;
-    font-family: 'Share Tech Mono', monospace;
+    font-family: 'Courier New', 'Consolas', monospace;
     font-size: 11px;
     color: var(--dim);
     transition: all 0.15s;
@@ -421,14 +421,14 @@
   }
 
   .footer-logo {
-    font-family: 'Orbitron', monospace;
+    font-family: 'Courier New', 'Lucida Console', monospace;
     font-size: 14px;
     color: var(--accent);
     letter-spacing: 2px;
   }
 
   .footer-text {
-    font-family: 'Share Tech Mono', monospace;
+    font-family: 'Courier New', 'Consolas', monospace;
     font-size: 11px;
     color: var(--dim);
     letter-spacing: 1px;
@@ -458,7 +458,7 @@
   .t-dot.green { background: var(--accent); }
 
   .terminal-title {
-    font-family: 'Share Tech Mono', monospace;
+    font-family: 'Courier New', 'Consolas', monospace;
     font-size: 11px;
     color: var(--dim);
     margin-left: 8px;
@@ -467,7 +467,7 @@
 
   .terminal-body {
     padding: 20px 24px;
-    font-family: 'Share Tech Mono', monospace;
+    font-family: 'Courier New', 'Consolas', monospace;
     font-size: 12px;
     line-height: 1.8;
   }
@@ -475,7 +475,7 @@
   .t-green { color: var(--accent); }
   .t-dim   { color: var(--dim); }
   .t-white { color: var(--text); }
-  .t-blue  { color: #64b5ff; }
+  .t-blue  { color: var(--accent); }
 
   /* ── DOWNLOAD SECTION ── */
   .dl-section {
@@ -520,7 +520,7 @@
   .dl-card-icon { font-size: 32px; margin-bottom: 12px; display: block; }
 
   .dl-card-title {
-    font-family: 'Orbitron', monospace;
+    font-family: 'Courier New', 'Lucida Console', monospace;
     font-size: 12px;
     font-weight: 700;
     color: var(--text);
@@ -531,7 +531,7 @@
   .dl-card.primary .dl-card-title { color: var(--accent); }
 
   .dl-card-sub {
-    font-family: 'Share Tech Mono', monospace;
+    font-family: 'Courier New', 'Consolas', monospace;
     font-size: 10px;
     color: var(--dim);
     letter-spacing: 1px;
